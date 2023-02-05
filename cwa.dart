@@ -2,14 +2,26 @@ import 'dart:io';
 
 void main() {
   int? numOfCourses;
-  int? score;
   int? creditHours;
-  int cumulativeMarks = 0;
   double cwa;
 
-  var marks = [];
   print('How many courses are there?');
   numOfCourses = int.parse(stdin.readLineSync()!);
+
+  int cumulativeMarks = calculateMarks(numOfCourses);
+
+  print('Total credit hours');
+  creditHours = int.parse(stdin.readLineSync()!);
+
+  cwa = cumulativeMarks / creditHours;
+
+  print(cwa);
+}
+
+int calculateMarks(numOfCourses) {
+  var marks = [];
+  int? score;
+  int cumulativeMarks = 0;
 
   print('Enter the marks');
 
@@ -18,12 +30,7 @@ void main() {
     marks.add(score);
   }
 
-  print('Total credit hours');
-  creditHours = int.parse(stdin.readLineSync()!);
-
   cumulativeMarks = marks.reduce((a, b) => a + b);
 
-  cwa = cumulativeMarks / creditHours;
-
-  print(cwa);
+  return cumulativeMarks;
 }
