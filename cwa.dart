@@ -7,12 +7,12 @@ void main() {
   print('How many courses are there?');
   numOfCourses = int.parse(stdin.readLineSync()!);
 
-  cwa = calculateMarks(numOfCourses);
+  cwa = calculateCWA(numOfCourses);
 
   print(cwa);
 }
 
-double calculateMarks(numOfCourses) {
+double calculateCWA(numOfCourses) {
   var marks = [];
   var creditHours = [];
   int? score;
@@ -23,7 +23,7 @@ double calculateMarks(numOfCourses) {
     print('Mark:');
     score = int.parse(stdin.readLineSync()!);
 
-    print('Credit Hours');
+    print('Credit Hours:');
     credit = int.parse(stdin.readLineSync()!);
     creditHours.add(credit);
 
@@ -34,11 +34,5 @@ double calculateMarks(numOfCourses) {
 
   cumulativeMarks = marks.reduce((a, b) => a + b);
 
-  print(cumulativeMarks);
-
   return cumulativeMarks / totalCredits;
-}
-
-int totalCreditHours(creditHours) {
-  return 0;
 }
