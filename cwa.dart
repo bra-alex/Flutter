@@ -7,7 +7,7 @@ void main() {
   print('How many courses are there?');
   numOfCourses = int.parse(stdin.readLineSync()!);
 
-  cwa = calculateCWA(numOfCourses);
+  cwa = double.parse(calculateCWA(numOfCourses).toStringAsFixed(2));
 
   print(cwa);
 }
