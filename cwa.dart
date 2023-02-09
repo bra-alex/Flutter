@@ -9,15 +9,14 @@ void main() {
 
   cwa = double.parse(calculateCWA(numOfCourses).toStringAsFixed(2));
 
-  print(cwa);
+  print('CWA: $cwa');
 }
 
 double calculateCWA(numOfCourses) {
-  var marks = [];
-  var creditHours = [];
+  int marks = 0;
+  int creditHours = 0;
   int? score;
   int? credit;
-  int cumulativeMarks = 0;
 
   for (var i = 0; i < numOfCourses; i++) {
     print('Mark:');
@@ -25,14 +24,10 @@ double calculateCWA(numOfCourses) {
 
     print('Credit Hours:');
     credit = int.parse(stdin.readLineSync()!);
-    creditHours.add(credit);
+    creditHours += credit;
 
-    marks.add(score * credit);
+    marks += score * credit;
   }
 
-  int totalCredits = creditHours.reduce((a, b) => a + b);
-
-  cumulativeMarks = marks.reduce((a, b) => a + b);
-
-  return cumulativeMarks / totalCredits;
+  return marks / creditHours;
 }
