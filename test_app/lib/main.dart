@@ -11,9 +11,38 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-        body: Center(
-      child: Text('Why am I even learning this?'),
-    ));
+    return Scaffold(
+      appBar: AppBar(
+        leading: const Icon(Icons.menu),
+        actions: [
+          IconButton(
+            icon: const Icon(
+              Icons.video_call,
+            ),
+            onPressed: () {},
+          ),
+          const Icon(Icons.audiotrack)
+        ],
+        title: const Text('Test App'),
+        centerTitle: true,
+        elevation: 0,
+      ),
+      body: SafeArea(
+          child: Column(
+        children: const [
+          Text('Hi'),
+        ],
+      )),
+      drawer: const Drawer(),
+      endDrawer: const Drawer(),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        child: const Icon(Icons.add),
+      ),
+      bottomNavigationBar: BottomNavigationBar(items: const [
+        BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+        BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Settings')
+      ]),
+    );
   }
 }
