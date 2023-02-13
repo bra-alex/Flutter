@@ -70,16 +70,21 @@ class _HomeScreenState extends State<HomeScreen> {
               const SizedBox(
                 height: 40,
               ),
-              Container(
-                height: 60,
-                width: 200,
-                decoration: const BoxDecoration(color: Colors.blue),
-                child: const Center(
-                    child: Text('Bar',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold))),
+              InkWell(
+                onTap: () {},
+                child: Container(
+                  height: 60,
+                  width: 200,
+                  decoration: BoxDecoration(
+                      color: Colors.blue,
+                      borderRadius: BorderRadius.circular(40)),
+                  child: const Center(
+                      child: Text('Bar',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold))),
+                ),
               )
             ],
           ),
