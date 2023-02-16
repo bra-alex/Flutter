@@ -1,5 +1,6 @@
-import 'package:assignment2/login_screen.dart';
+import 'package:assignment2/home.dart';
 import 'package:flutter/material.dart';
+import 'package:assignment2/login.dart';
 import 'package:assignment2/buttons.dart';
 import 'package:assignment2/background.dart';
 import 'package:assignment2/text_inputs.dart';
@@ -14,7 +15,7 @@ class SignupScreen extends StatefulWidget {
 class _SignupScreenState extends State<SignupScreen> {
   @override
   Widget build(BuildContext context) {
-    return Backround(
+    return Background(
         child: SafeArea(
       child: Padding(
           padding: const EdgeInsets.all(20),
@@ -58,9 +59,9 @@ class _SignupScreenState extends State<SignupScreen> {
                 ),
                 Buttons(
                     placeholder: "Sign Up",
-                    navigation: () => Navigator.of(context).push(
-                        MaterialPageRoute(
-                            builder: (context) => const SignupScreen())))
+                    navigation: () => Navigator.of(context).pushAndRemoveUntil(
+                        MaterialPageRoute(builder: (context) => const Home()),
+                        (route) => false))
               ],
             )),
           )),
