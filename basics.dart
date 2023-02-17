@@ -30,9 +30,10 @@ nullAssessment(List<String>? names) {
 
 // Enumerations
 // List of related items
-enum Weather { hot, cold, warm, humid }
+// enum Weather { hot, cold, warm, humid }
 
 // Switch statements
+/*
 printWeather(Weather weather) {
   switch (weather) {
     case Weather.hot:
@@ -49,12 +50,35 @@ printWeather(Weather weather) {
       break;
   }
 }
+*/
+
+// Classes
+class Car {
+  final model = 'BMW';
+  final make = 'M5 CS';
+
+  accelerate() {
+    print('Accelerating...');
+  }
+
+  brake() {
+    print('Braking...');
+  }
+
+  start() {
+    print('Starting...');
+  }
+}
 
 void main() {
   /*
   nullSafety(null, 'Asiamah', 'Boakye');
   nullSafetyAssignment(null, 'Asiamah', 'Boakye');
   nullAssessment(null);
-  */
   printWeather(Weather.hot);
+  */
+
+  final car = Car();
+  print(car.make);
+  car.start();
 }
