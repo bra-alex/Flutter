@@ -55,22 +55,23 @@ printWeather(Weather weather) {
 // Classes
 class Car {
   // Constructors
-  final String model;
   final String make;
+  final String model;
   final String bhp;
 
-  Car(this.model, this.make, this.bhp);
+  Car(this.make, this.model, this.bhp);
 
+// Methods
   accelerate() {
-    print('Accelerating...');
+    print('${this.make} ${this.model} accelerating...');
   }
 
   brake() {
-    print('Braking...');
+    print('${this.make} ${this.model} braking...');
   }
 
   start() {
-    print('Starting...');
+    print('${this.make} ${this.model} starting...');
   }
 }
 
