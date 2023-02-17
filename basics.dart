@@ -54,8 +54,12 @@ printWeather(Weather weather) {
 
 // Classes
 class Car {
-  final model = 'BMW';
-  final make = 'M5 CS';
+  // Constructors
+  final String model;
+  final String make;
+  final String bhp;
+
+  Car(this.model, this.make, this.bhp);
 
   accelerate() {
     print('Accelerating...');
@@ -78,7 +82,7 @@ void main() {
   printWeather(Weather.hot);
   */
 
-  final car = Car();
-  print(car.make);
+  final car = Car('BMW', 'M5 CS', '625'); // Object - Instance of a class
+  print(car.bhp);
   car.start();
 }
