@@ -1,9 +1,7 @@
-import 'package:assignment2/home.dart';
 import 'package:flutter/material.dart';
+import 'package:assignment2/home.dart';
+import 'package:assignment2/main.dart';
 import 'package:assignment2/login.dart';
-import 'package:assignment2/buttons.dart';
-import 'package:assignment2/background.dart';
-import 'package:assignment2/text_inputs.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:assignment2/background.dart';
+import 'package:assignment2/main.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});
