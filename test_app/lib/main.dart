@@ -27,9 +27,9 @@ class MyApp extends StatelessWidget {
         centerTitle: true,
         elevation: 0,
       ),
-      body: SafeArea(
+      body: const SafeArea(
           child: Column(
-        children: const [
+        children: [
           Text('Hi'),
         ],
       )),

@@ -20,12 +20,12 @@ class Assignment extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       backgroundColor: Colors.blue,
       body: SafeArea(
           child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [Header(), LoremIpsum(), LoremIpsum()])),
+              children: [Header(), LoremIpsum(), LoremIpsum()])),
     );
   }
 }
@@ -35,10 +35,10 @@ class Header extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return const Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       crossAxisAlignment: CrossAxisAlignment.center,
-      children: const [
+      children: [
         Text(
           'Login',
           style: TextStyle(
