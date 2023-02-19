@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jokes_app/fetch_joke.dart';
+import 'package:audioplayers/audioplayers.dart';
 import 'package:jokes_app/models/joke_model.dart';
 
 class Home extends StatefulWidget {
@@ -11,6 +12,8 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   late Future<Jokes> joke;
+  bool isLoading = false;
+  bool showPunchline = false;
 
   @override
   void initState() {
@@ -20,7 +23,24 @@ class _HomeState extends State<Home> {
 
   void getJoke() async {
     joke = fetchJoke();
-    setState(() {});
+    Future.delayed(const Duration(seconds: 2), () {
+      punchline();
+    });
+  }
+
+  void punchline() async {
+    setState(() {
+      showPunchline = false;
+    });
+
+    final player = AudioPlayer();
+    await player.play(AssetSource('sounds/drums_roll.mp3'));
+
+    Future.delayed(const Duration(seconds: 2), () {
+      setState(() {
+        showPunchline = true;
+      });
+    });
   }
 
   @override
@@ -43,44 +63,59 @@ class _HomeState extends State<Home> {
                 height: 80,
               ),
               Center(
-                child: FutureBuilder<Jokes>(
-                    future: joke,
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        return Container(
-                            height: 250,
-                            width: 400,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(25),
-                                color: Colors.blue[50]),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  snapshot.data!.setup,
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 25),
-                                ),
-                                const SizedBox(height: 30),
-                                Text(
-                                  snapshot.data!.punchline,
-                                  style: const TextStyle(fontSize: 15),
-                                )
-                              ],
-                            ));
-                      } else if (snapshot.hasError) {
-                        return Text('${snapshot.error}');
-                      }
+                child: isLoading
+                    ? const CircularProgressIndicator()
+                    : FutureBuilder<Jokes>(
+                        future: joke,
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            return Container(
+                                height: 250,
+                                width: 400,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(25),
+                                    color: Colors.blue[50]),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      snapshot.data!.setup,
+                                      style: const TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 25),
+                                    ),
+                                    const SizedBox(height: 30),
+                                    showPunchline
+                                        ? Text(
+                                            snapshot.data!.punchline,
+                                            style:
+                                                const TextStyle(fontSize: 15),
+                                          )
+                                        : const Text('')
+                                  ],
+                                ));
+                          } else if (snapshot.hasError) {
+                            return Text('${snapshot.error}');
+                          }
 
-                      return const CircularProgressIndicator();
-                    }),
+                          return const CircularProgressIndicator();
+                        }),
               ),
               const SizedBox(
                 height: 40,
               ),
               InkWell(
-                onTap: getJoke,
+                onTap: () async {
+                  setState(() {
+                    isLoading = true;
+                  });
+                  getJoke();
+                  Future.delayed(const Duration(seconds: 2), () {
+                    setState(() {
+                      isLoading = false;
+                    });
+                  });
+                },
                 child: Material(
                   color: Colors.transparent,
                   elevation: 5.0,
