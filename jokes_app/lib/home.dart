@@ -75,24 +75,27 @@ class _HomeState extends State<Home> {
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(25),
                                     color: Colors.blue[50]),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      snapshot.data!.setup,
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 25),
-                                    ),
-                                    const SizedBox(height: 30),
-                                    showPunchline
-                                        ? Text(
-                                            snapshot.data!.punchline,
-                                            style:
-                                                const TextStyle(fontSize: 15),
-                                          )
-                                        : const Text('')
-                                  ],
+                                child: Padding(
+                                  padding: const EdgeInsets.all(20),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        snapshot.data!.setup,
+                                        style: const TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 25),
+                                      ),
+                                      const SizedBox(height: 30),
+                                      showPunchline
+                                          ? Text(
+                                              snapshot.data!.punchline,
+                                              style:
+                                                  const TextStyle(fontSize: 15),
+                                            )
+                                          : const Text('')
+                                    ],
+                                  ),
                                 ));
                           } else if (snapshot.hasError) {
                             return Text('${snapshot.error}');
