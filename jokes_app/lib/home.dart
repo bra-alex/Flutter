@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:jokes_app/fetch_joke.dart';
+import 'package:jokes_app/models/joke_model.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -8,6 +10,19 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  late Future<Jokes> joke;
+
+  @override
+  void initState() {
+    super.initState();
+    getJoke();
+  }
+
+  void getJoke() async {
+    joke = fetchJoke();
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,34 +43,44 @@ class _HomeState extends State<Home> {
                 height: 80,
               ),
               Center(
-                child: Container(
-                  height: 250,
-                  width: 4000,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(25),
-                      color: Colors.blue[50]),
-                  child: const Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Why are fish easy to weigh?',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 25),
-                      ),
-                      SizedBox(height: 30),
-                      Text(
-                        "Because they have their own scales.",
-                        style: TextStyle(fontSize: 15),
-                      )
-                    ],
-                  ),
-                ),
+                child: FutureBuilder<Jokes>(
+                    future: joke,
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return Container(
+                            height: 250,
+                            width: 400,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(25),
+                                color: Colors.blue[50]),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  snapshot.data!.setup,
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 25),
+                                ),
+                                const SizedBox(height: 30),
+                                Text(
+                                  snapshot.data!.punchline,
+                                  style: const TextStyle(fontSize: 15),
+                                )
+                              ],
+                            ));
+                      } else if (snapshot.hasError) {
+                        return Text('${snapshot.error}');
+                      }
+
+                      return const CircularProgressIndicator();
+                    }),
               ),
               const SizedBox(
                 height: 40,
               ),
               InkWell(
-                onTap: () {},
+                onTap: getJoke,
                 child: Material(
                   color: Colors.transparent,
                   elevation: 5.0,
