@@ -27,7 +27,11 @@ class _RecipeViewState extends State<RecipeView> {
             future: fetchRecipe(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(child: CircularProgressIndicator());
+                return const Center(
+                    child: Padding(
+                  padding: EdgeInsets.all(20),
+                  child: LinearProgressIndicator(),
+                ));
               }
               return Stack(
                 children: [
