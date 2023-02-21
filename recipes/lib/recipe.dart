@@ -16,133 +16,91 @@ class _RecipeViewState extends State<RecipeView> {
   @override
   void initState() {
     super.initState();
-    newRecipe();
-  }
-
-  void newRecipe() async {
-    recipe = fetchRecipe();
+    fetchRecipe();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(children: [
-        isLoading
-            ? const Center(child: CircularProgressIndicator())
-            : FutureBuilder<Recipe>(
-                future: recipe,
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    return Stack(
-                      children: [
-                        Image(
+        FutureBuilder<Recipe>(
+            future: fetchRecipe(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(child: CircularProgressIndicator());
+              }
+              return Stack(
+                children: [
+                  snapshot.hasData
+                      ? Image(
                           image: NetworkImage(snapshot.data!.image),
                           fit: BoxFit.fitHeight,
-                        ),
-                        Positioned.fill(
-                            child: ColoredBox(
-                          color: Colors.black.withOpacity(0.3),
-                        )),
-                        Reload(fxn: () async {
-                          setState(() {
-                            isLoading = true;
-                          });
-                          newRecipe();
-                          Future.delayed(const Duration(seconds: 2), () {
-                            setState(() {
-                              isLoading = false;
-                            });
-                          });
-                        }),
-                        SizedBox.expand(
-                          child: DraggableScrollableSheet(
-                              initialChildSize: 0.7,
-                              minChildSize: 0.6,
-                              builder: (context, scrollController) {
-                                return Container(
-                                    decoration: BoxDecoration(
-                                        color: const Color.fromRGBO(
-                                            242, 242, 247, 1),
-                                        borderRadius:
-                                            BorderRadius.circular(40)),
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(
-                                          top: 15, bottom: 15),
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        children: [
-                                          Container(
-                                            height: 5,
-                                            width: 40,
-                                            decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(50),
-                                                color: Colors.black45),
-                                          ),
-                                          Expanded(
-                                            child: ListView.builder(
-                                              itemCount: 1,
-                                              controller: scrollController,
-                                              itemBuilder:
-                                                  (BuildContext context,
-                                                      int index) {
-                                                return Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          left: 15, right: 15),
-                                                  child: Column(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.start,
-                                                    children: [
-                                                      Header(
-                                                        name:
-                                                            snapshot.data!.name,
-                                                        time: snapshot
-                                                            .data!.timeTaken,
-                                                        servings: snapshot
-                                                            .data!.servings,
-                                                      ),
-                                                      const SizedBox(
-                                                        height: 20,
-                                                      ),
-                                                      const Divider(),
-                                                      const SizedBox(
-                                                        height: 20,
-                                                      ),
-                                                      Ingredients(
-                                                          ingredient: snapshot
-                                                              .data!
-                                                              .ingredients),
-                                                      const SizedBox(
-                                                        height: 20,
-                                                      ),
-                                                      const Divider(),
-                                                      const SizedBox(
-                                                        height: 20,
-                                                      ),
-                                                      CookingInstructions(
-                                                          instructions: snapshot
-                                                              .data!
-                                                              .instructions)
-                                                    ],
-                                                  ),
-                                                );
-                                              },
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                    ));
-                              }),
                         )
-                      ],
-                    );
-                  } else if (snapshot.hasError) {
-                    return Center(child: Text('${snapshot.error}'));
-                  }
-                  return const Center(child: CircularProgressIndicator());
-                }),
+                      : const Text(''),
+                  Positioned.fill(
+                      child: ColoredBox(
+                    color: Colors.black.withOpacity(0.3),
+                  )),
+                  Reload(fxn: () {
+                    setState(() {
+                      fetchRecipe();
+                    });
+                  }),
+                  SizedBox.expand(
+                    child: DraggableScrollableSheet(
+                        initialChildSize: 0.7,
+                        minChildSize: 0.6,
+                        builder: (context, scrollController) {
+                          return Container(
+                              decoration: BoxDecoration(
+                                  color: const Color.fromRGBO(242, 242, 247, 1),
+                                  borderRadius: BorderRadius.circular(40)),
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.only(top: 15, bottom: 15),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Container(
+                                      height: 5,
+                                      width: 40,
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(50),
+                                          color: Colors.black45),
+                                    ),
+                                    Expanded(
+                                      child: ListView.builder(
+                                        itemCount: 1,
+                                        controller: scrollController,
+                                        itemBuilder:
+                                            (BuildContext context, int index) {
+                                          return Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 15, right: 15),
+                                            child: snapshot.hasData
+                                                ? RecipeData(
+                                                    recipe: snapshot.data!)
+                                                : const Center(
+                                                    child: Text(
+                                                    'Could not load recipe',
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 20),
+                                                  )),
+                                          );
+                                        },
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ));
+                        }),
+                  )
+                ],
+              );
+            }),
       ]),
     );
   }
@@ -187,6 +145,40 @@ class Divider extends StatelessWidget {
       width: double.maxFinite,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(50), color: Colors.black12),
+    );
+  }
+}
+
+class RecipeData extends StatelessWidget {
+  const RecipeData({super.key, required this.recipe});
+  final Recipe recipe;
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Header(
+          name: recipe.name,
+          time: recipe.timeTaken,
+          servings: recipe.servings,
+        ),
+        const SizedBox(
+          height: 20,
+        ),
+        const Divider(),
+        const SizedBox(
+          height: 20,
+        ),
+        Ingredients(ingredient: recipe.ingredients),
+        const SizedBox(
+          height: 20,
+        ),
+        const Divider(),
+        const SizedBox(
+          height: 20,
+        ),
+        CookingInstructions(instructions: recipe.instructions)
+      ],
     );
   }
 }
