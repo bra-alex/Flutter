@@ -42,13 +42,120 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [],
-        ),
+    return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        backgroundColor: Colors.transparent,
+        foregroundColor: Colors.black,
+        elevation: 0,
+        title: const Text('Activity Generator'),
+        actions: [
+          IconButton(
+              onPressed: () => setState(() {
+                    fetchActivity();
+                  }),
+              icon: const Icon(Icons.refresh))
+        ],
+      ),
+      body: Stack(
+        children: [
+          Center(
+            child: Material(
+                elevation: 5.0,
+                child: Container(
+                  height: 300,
+                  width: 300,
+                  color: Colors.white,
+                )),
+          ),
+          Center(
+            child: FutureBuilder(
+                future: fetchActivity(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+                  return snapshot.hasData
+                      ? Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    snapshot.data!.type.toUpperCase(),
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.grey),
+                                  )
+                                ]),
+                            const SizedBox(
+                              height: 50,
+                            ),
+                            Center(
+                              child: SizedBox(
+                                  width: 250,
+                                  child: Text(
+                                    snapshot.data!.activity,
+                                    textAlign: TextAlign.center,
+                                  )),
+                            ),
+                            const SizedBox(
+                              height: 50,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                BottomRow(
+                                    text:
+                                        snapshot.data!.participants.toString(),
+                                    icon: Icons.people),
+                                const SizedBox(width: 30),
+                                BottomRow(
+                                    text: snapshot.data!.price.toString(),
+                                    icon: Icons.attach_money)
+                              ],
+                            )
+                          ],
+                        )
+                      : const Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text('Could not load activity'),
+                          ],
+                        );
+                }),
+          ),
+        ],
       ), // This trailing comma makes auto-formatting nicer for build methods.
+    );
+  }
+}
+
+class BottomRow extends StatelessWidget {
+  const BottomRow({super.key, required this.text, required this.icon});
+
+  final String text;
+  final IconData icon;
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(5.0),
+          child: Icon(
+            icon,
+            color: Colors.grey,
+            size: 15,
+          ),
+        ),
+        Text(
+          text,
+          style: const TextStyle(
+            fontSize: 12,
+          ),
+        )
+      ],
     );
   }
 }

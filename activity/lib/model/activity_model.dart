@@ -2,7 +2,7 @@ class Activity {
   String activity;
   String type;
   int participants;
-  int price;
+  double price;
 
   Activity(
       {required this.activity,
@@ -15,6 +15,6 @@ class Activity {
         activity: json['activity'],
         type: json['type'],
         participants: json['participants'],
-        price: json['price']);
+        price: json['price'].toDouble());
   }
 }
