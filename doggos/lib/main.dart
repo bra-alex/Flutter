@@ -30,6 +30,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  final player = AudioPlayer();
   Future<DoggoModel> fetchDoggo() async {
     final response =
         await http.get(Uri.parse('https://dog.ceo/api/breeds/image/random'));
@@ -98,7 +99,6 @@ class _HomeState extends State<Home> {
                         return const Center(child: CircularProgressIndicator());
                       }
                       if (snapshot.hasData) {
-                        final player = AudioPlayer();
                         player.play(AssetSource('sounds/bark.mp3'));
                         return Image.network(
                           snapshot.data!.message,
@@ -106,7 +106,21 @@ class _HomeState extends State<Home> {
                           height: 275,
                         );
                       } else {
-                        return const Text('Could not load dog image');
+                        player.play(AssetSource('sounds/whine.mp3'));
+                        return Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image.asset(
+                              'assets/images/sad_doggo.png',
+                              height: 50,
+                              width: 50,
+                            ),
+                            const SizedBox(
+                              height: 50,
+                            ),
+                            const Text('Could not load dog image'),
+                          ],
+                        );
                       }
                     }),
               ),
