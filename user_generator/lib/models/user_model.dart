@@ -116,7 +116,7 @@ class DOB {
   });
 
   factory DOB.fromJSON(Map<String, dynamic> json) {
-    return DOB(date: json['date'], age: json['age']);
+    return DOB(date: DateTime.tryParse(json['date'])!, age: json['age']);
   }
 }
 
@@ -126,7 +126,7 @@ class Registered {
   Registered({required this.date});
 
   factory Registered.fromJSON(Map<String, dynamic> json) {
-    return Registered(date: json['date']);
+    return Registered(date: DateTime.tryParse(json['date'])!);
   }
 }
 
