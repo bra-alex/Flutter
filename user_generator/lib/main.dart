@@ -1,4 +1,8 @@
+import 'dart:convert';
+
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:user_generator/models/user_model.dart';
 
 void main() {
   runApp(const UserGenerator());
@@ -25,17 +29,34 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  Future<Results> fetchUser() async {
+    final response = await http.get(Uri.parse('https://randomuser.me/api/'));
+    if (response.statusCode == 200) {
+      return Results.fromJSON(jsonDecode(response.body));
+    } else {
+      throw Exception('No user found');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      body: const Center(
+      body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              'You have pushed the button this many times:',
-            )
+            FutureBuilder<Results>(
+                future: fetchUser(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const CircularProgressIndicator();
+                  }
+
+                  return snapshot.hasData
+                      ? Text(snapshot.data!.results.first.name.first)
+                      : const Text('data');
+                })
           ],
         ),
       ), // This trailing comma makes auto-formatting nicer for build methods.
