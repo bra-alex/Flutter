@@ -24,7 +24,6 @@ class User {
   String phone;
   String cell;
   Picture picture;
-  String nat;
 
   String sex() {
     return '${gender[0].toUpperCase()}${gender.substring(1).toLowerCase()}';
@@ -39,8 +38,7 @@ class User {
       required this.registered,
       required this.phone,
       required this.cell,
-      required this.picture,
-      required this.nat});
+      required this.picture});
 
   factory User.fromJSON(Map<String, dynamic> json) {
     return User(
@@ -52,8 +50,7 @@ class User {
         registered: Registered.fromJSON(json['registered']),
         phone: json['phone'],
         cell: json['cell'],
-        picture: Picture.fromJSON(json['picture']),
-        nat: json['nat']);
+        picture: Picture.fromJSON(json['picture']));
   }
 }
 
@@ -83,10 +80,6 @@ class Location {
   String state;
   String country;
   String postcode;
-
-  String getLocation() {
-    return '${street.fullStreet()}, $city, $state, $country';
-  }
 
   Location({
     required this.street,
