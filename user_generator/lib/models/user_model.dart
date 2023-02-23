@@ -4,7 +4,11 @@ class Results {
   Results({required this.results});
 
   factory Results.fromJSON(Map<String, dynamic> json) {
-    return Results(results: json['results']);
+    List<User> users = [];
+    json['results'].forEach((user) {
+      users.add(User.fromJSON(user));
+    });
+    return Results(results: users);
   }
 }
 
@@ -35,14 +39,14 @@ class User {
   factory User.fromJSON(Map<String, dynamic> json) {
     return User(
         gender: json['gender'],
-        name: json['name'],
-        location: json['location'],
+        name: Name.fromJSON(json['name']),
+        location: Location.fromJSON(json['location']),
         email: json['email'],
-        dob: json['dob'],
-        registered: json['registered'],
+        dob: DOB.fromJSON(json['dob']),
+        registered: Registered.fromJSON(json['registered']),
         phone: json['phone'],
         cell: json['cell'],
-        picture: json['picture'],
+        picture: Picture.fromJSON(json['picture']),
         nat: json['nat']);
   }
 }
@@ -80,7 +84,7 @@ class Location {
 
   factory Location.fromJSON(Map<String, dynamic> json) {
     return Location(
-        street: json['street'],
+        street: Street.fromJSON(json['street']),
         city: json['city'],
         state: json['state'],
         country: json['country'],
