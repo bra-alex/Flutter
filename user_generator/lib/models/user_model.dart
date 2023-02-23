@@ -126,7 +126,6 @@ class Street {
 
 class DOB {
   DateTime date;
-  int age;
 
   String formattedDate() {
     return DateFormat.yMMMMd().format(date);
@@ -134,11 +133,10 @@ class DOB {
 
   DOB({
     required this.date,
-    required this.age,
   });
 
   factory DOB.fromJSON(Map<String, dynamic> json) {
-    return DOB(date: DateTime.tryParse(json['date'])!, age: json['age']);
+    return DOB(date: DateTime.parse(json['date']));
   }
 }
 
@@ -146,7 +144,7 @@ class Registered {
   DateTime date;
 
   String formattedDate() {
-    return DateFormat.yMMMMd().format(date);
+    return DateFormat.yMMMM().format(date);
   }
 
   Registered({required this.date});
@@ -158,19 +156,12 @@ class Registered {
 
 class Picture {
   String large;
-  String medium;
-  String thumbnail;
 
   Picture({
     required this.large,
-    required this.medium,
-    required this.thumbnail,
   });
 
   factory Picture.fromJSON(Map<String, dynamic> json) {
-    return Picture(
-        large: json['large'],
-        medium: json['medium'],
-        thumbnail: json['thumbnail']);
+    return Picture(large: json['large']);
   }
 }
