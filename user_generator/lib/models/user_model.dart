@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 class Results {
   List<User> results;
 
@@ -23,6 +25,10 @@ class User {
   String cell;
   Picture picture;
   String nat;
+
+  String sex() {
+    return '${gender[0].toUpperCase()}${gender.substring(1).toLowerCase()}';
+  }
 
   User(
       {required this.gender,
@@ -56,6 +62,10 @@ class Name {
   String first;
   String last;
 
+  String fullName() {
+    return '$title $first $last';
+  }
+
   Name({
     required this.title,
     required this.first,
@@ -72,7 +82,11 @@ class Location {
   String city;
   String state;
   String country;
-  int postcode;
+  String postcode;
+
+  String getLocation() {
+    return '${street.fullStreet()}, $city, $state, $country';
+  }
 
   Location({
     required this.street,
@@ -88,13 +102,17 @@ class Location {
         city: json['city'],
         state: json['state'],
         country: json['country'],
-        postcode: json['postcode']);
+        postcode: json['postcode'].toString());
   }
 }
 
 class Street {
   int number;
   String name;
+
+  String fullStreet() {
+    return '$number $name';
+  }
 
   Street({
     required this.number,
@@ -110,6 +128,10 @@ class DOB {
   DateTime date;
   int age;
 
+  String formattedDate() {
+    return DateFormat.yMMMMd().format(date);
+  }
+
   DOB({
     required this.date,
     required this.age,
@@ -122,6 +144,10 @@ class DOB {
 
 class Registered {
   DateTime date;
+
+  String formattedDate() {
+    return DateFormat.yMMMMd().format(date);
+  }
 
   Registered({required this.date});
 
