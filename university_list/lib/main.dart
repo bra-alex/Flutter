@@ -36,25 +36,192 @@ class _HomeState extends State<Home> {
     if (response.statusCode == 200) {
       return Universities.fromJSON(jsonDecode(response.body));
     }
-
     throw Exception('Could not get universities');
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        appBar: AppBar(
+          title: const Text('American Universities'),
+          centerTitle: true,
+        ),
         body: FutureBuilder<Universities>(
-      future: fetchUniversities(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator());
-        }
+          future: fetchUniversities(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
+            }
 
-        return snapshot.hasData
-            ? Center(child: Text(snapshot.data!.universities.first.name))
-            : const Center(child: Text('Error'));
-      },
-    ) // This trailing comma makes auto-formatting nicer for build methods.
+            if (snapshot.hasData) {
+              final universities = snapshot.data!.universities;
+              return ListView.builder(
+                itemCount: universities.length,
+                itemBuilder: (context, index) {
+                  return ListTile(
+                    title: Text(universities[index].name),
+                    onTap: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return DetailView(university: universities[index]);
+                        },
+                      );
+                    },
+                  );
+                },
+              );
+            } else {
+              return Center(
+                  child: snapshot.hasError
+                      ? Text('${snapshot.error}')
+                      : const Text('Error'));
+            }
+          },
+        ) // This trailing comma makes auto-formatting nicer for build methods.
         );
+  }
+}
+
+class DetailView extends StatelessWidget {
+  const DetailView({super.key, required this.university});
+
+  final University university;
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+      child: Container(
+        color: Colors.white,
+        child: ListView(
+          shrinkWrap: true,
+          children: [
+            Container(
+                constraints: const BoxConstraints(minHeight: 30, maxHeight: 50),
+                width: double.maxFinite,
+                color: Colors.blueAccent,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Center(
+                    child: Text(
+                      university.name,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                )),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.only(top: 8.0),
+                    child: Text(
+                      'Domains',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: university.domains.length,
+                    itemBuilder: (context, index) {
+                      return Text(university.domains[index]);
+                    },
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.only(top: 8.0),
+                    child: Divider(),
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.only(top: 8.0),
+                    child: Text(
+                      'Web Pages',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: university.webPages.length,
+                    itemBuilder: (context, index) {
+                      return Text(university.webPages[index]);
+                    },
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.only(top: 8.0),
+                    child: Divider(),
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.only(top: 8.0),
+                    child: Text(
+                      'Country',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  Text(university.country),
+                  const Padding(
+                    padding: EdgeInsets.only(top: 8.0),
+                    child: Divider(),
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.only(top: 8.0),
+                    child: Text(
+                      'Alpha Two Code',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  Text(university.alphaTwoCode),
+                  university.stateProvince != null
+                      ? Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Padding(
+                              padding: EdgeInsets.only(top: 8.0),
+                              child: Divider(),
+                            ),
+                            const Padding(
+                              padding: EdgeInsets.only(top: 8.0),
+                              child: Text(
+                                'State Province',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                            Text(university.stateProvince!)
+                          ],
+                        )
+                      : const Text('')
+                ],
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class Divider extends StatelessWidget {
+  const Divider({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 1,
+      width: double.maxFinite,
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(50), color: Colors.black12),
+    );
   }
 }
