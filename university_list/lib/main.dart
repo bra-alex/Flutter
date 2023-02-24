@@ -1,8 +1,10 @@
 import 'dart:convert';
 
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:university_list/models/universities_model.dart';
+import 'package:url_launcher/link.dart';
 
 void main() {
   runApp(const UniversityApp());
@@ -150,7 +152,21 @@ class DetailView extends StatelessWidget {
                     shrinkWrap: true,
                     itemCount: university.webPages.length,
                     itemBuilder: (context, index) {
-                      return Text(university.webPages[index]);
+                      return Link(
+                        uri: Uri.parse(university.webPages[index]),
+                        target: LinkTarget.self,
+                        builder: (context, followLink) {
+                          return RichText(
+                              text: TextSpan(
+                                  text: university.webPages[index],
+                                  style: const TextStyle(
+                                    color: Colors.blue,
+                                    decoration: TextDecoration.underline,
+                                  ),
+                                  recognizer: TapGestureRecognizer()
+                                    ..onTap = followLink));
+                        },
+                      );
                     },
                   ),
                   const Padding(
