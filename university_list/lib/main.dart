@@ -197,27 +197,26 @@ class DetailView extends StatelessWidget {
                     ),
                   ),
                   Text(university.alphaTwoCode),
-                  university.stateProvince != null
-                      ? Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Padding(
-                              padding: EdgeInsets.only(top: 8.0),
-                              child: Divider(),
+                  if (university.stateProvince != null)
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Padding(
+                          padding: EdgeInsets.only(top: 8.0),
+                          child: Divider(),
+                        ),
+                        const Padding(
+                          padding: EdgeInsets.only(top: 8.0),
+                          child: Text(
+                            'State Province',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
                             ),
-                            const Padding(
-                              padding: EdgeInsets.only(top: 8.0),
-                              child: Text(
-                                'State Province',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                            Text(university.stateProvince!)
-                          ],
-                        )
-                      : const Text('')
+                          ),
+                        ),
+                        Text(university.stateProvince!)
+                      ],
+                    )
                 ],
               ),
             )
