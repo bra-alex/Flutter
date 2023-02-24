@@ -27,11 +27,11 @@ class University {
 
   factory University.fromJSON(Map<String, dynamic> json) {
     return University(
-        domains: json['domains'],
+        domains: List<String>.from(json['domains']),
         name: json['name'],
-        webPages: json['webPages'],
+        webPages: List<String>.from(json['web_pages']),
         country: json['country'],
-        alphaTwoCode: json['alphaTwoCode'],
-        stateProvince: json['stateProvince']);
+        alphaTwoCode: json['alpha_two_code'],
+        stateProvince: json['state-province']);
   }
 }
