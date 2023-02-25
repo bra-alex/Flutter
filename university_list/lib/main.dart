@@ -92,8 +92,11 @@ class DetailView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Dialog(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       child: Container(
-        color: Colors.white,
+        clipBehavior: Clip.antiAlias,
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(15)),
+        // color: Colors.white,
         child: ListView(
           shrinkWrap: true,
           children: [
