@@ -36,6 +36,7 @@ class _UserTransactionsState extends State<UserTransactions> {
 
     setState(() {
       _userTransactions.add(newTransaction);
+      _userTransactions.sort(((a, b) => b.date.compareTo(a.date)));
     });
   }
 

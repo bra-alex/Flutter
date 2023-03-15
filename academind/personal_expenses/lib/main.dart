@@ -27,7 +27,7 @@ class MyHomePage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Expenses'),
       ),
-      body: const Center(
+      body: const SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -41,7 +41,7 @@ class MyHomePage extends StatelessWidget {
             UserTransactions()
           ],
         ),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      ),
     );
   }
 }
