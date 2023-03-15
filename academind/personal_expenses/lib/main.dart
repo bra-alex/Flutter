@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:personal_expenses/models/transaction.dart';
+import 'package:personal_expenses/widgets/user_transactions.dart';
 
 void main() {
   runApp(const MyApp());
@@ -11,7 +11,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       title: 'Flutter Demo',
       home: MyHomePage(),
     );
@@ -19,31 +19,17 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatelessWidget {
-  MyHomePage({super.key});
-
-  final List<Transaction> transactions = [
-    Transaction(
-      id: 't1',
-      title: 'New Shoes',
-      amount: 69.99,
-      date: DateTime.now(),
-    ),
-    Transaction(
-      id: 't2',
-      title: 'Weekly Groceries',
-      amount: 16.53,
-      date: DateTime.now(),
-    ),
-  ];
+  const MyHomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Flutter Demo'),
+        title: const Text('Expenses'),
       ),
       body: const Center(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             SizedBox(
               width: double.infinity,
@@ -52,9 +38,7 @@ class MyHomePage extends StatelessWidget {
                 child: Text('Chart'),
               ),
             ),
-            Card(
-              child: Text('Transactions'),
-            ),
+            UserTransactions()
           ],
         ),
       ), // This trailing comma makes auto-formatting nicer for build methods.
