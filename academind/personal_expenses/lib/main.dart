@@ -25,7 +25,9 @@ class MyApp extends StatelessWidget {
             fontWeight: FontWeight.bold,
           ),
         ),
-        colorScheme: ThemeData().colorScheme.copyWith(
+        colorScheme: ThemeData(
+          useMaterial3: true,
+        ).colorScheme.copyWith(
               primary: Colors.purple,
               secondary: Colors.amber,
             ),
