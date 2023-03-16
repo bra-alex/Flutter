@@ -41,7 +41,7 @@ class Chart extends StatelessWidget {
     return Card(
       elevation: 6,
       margin: const EdgeInsets.all(20),
-      child: Container(
+      child: Padding(
         padding: const EdgeInsets.all(10),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
