@@ -127,7 +127,7 @@ class _MyHomePageState extends State<MyHomePage> {
     final mediaQuery = MediaQuery.of(context);
     final isLandscape = mediaQuery.orientation == Orientation.landscape;
 
-    final ObstructingPreferredSizeWidget appBar = Platform.isIOS
+    final PreferredSizeWidget appBar = Platform.isIOS
         ? CupertinoNavigationBar(
             middle: const Text('Expenses'),
             trailing: Row(
@@ -155,7 +155,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 icon: const Icon(Icons.add),
               )
             ],
-          ) as ObstructingPreferredSizeWidget;
+          ) as PreferredSizeWidget;
 
     final transactionList = SizedBox(
       height: (mediaQuery.size.height -
@@ -215,7 +215,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
     return Platform.isIOS
         ? CupertinoPageScaffold(
-            navigationBar: appBar,
+            navigationBar: appBar as ObstructingPreferredSizeWidget,
             child: body,
           )
         : Scaffold(
