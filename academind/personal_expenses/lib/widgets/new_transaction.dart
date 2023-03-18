@@ -1,5 +1,9 @@
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
+import 'package:personal_expenses/widgets/adaptive_button.dart';
 
 class NewTransaction extends StatefulWidget {
   const NewTransaction({super.key, required this.addNewTransaction});
@@ -34,19 +38,55 @@ class _NewTransactionState extends State<NewTransaction> {
   }
 
   void _presentDatePicker() {
-    showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(2023),
-      lastDate: DateTime.now(),
-    ).then((pickedDate) {
-      if (pickedDate == null) {
-        return;
-      }
-      setState(() {
-        _selectedDate = pickedDate;
-      });
-    });
+    Platform.isIOS
+        ? showCupertinoModalPopup(
+            context: context,
+            builder: (_) {
+              return Container(
+                height: MediaQuery.of(context).size.height * 0.35,
+                color: const Color.fromARGB(255, 255, 255, 255),
+                child: Column(
+                  children: [
+                    LayoutBuilder(
+                      builder: (context, constraints) {
+                        return SizedBox(
+                          height: constraints.minHeight + 200,
+                          child: CupertinoDatePicker(
+                            minimumDate: DateTime(2023),
+                            maximumDate: DateTime.now(),
+                            mode: CupertinoDatePickerMode.date,
+                            initialDateTime: DateTime.now(),
+                            onDateTimeChanged: (pickedDate) {
+                              setState(() {
+                                _selectedDate = pickedDate;
+                              });
+                            },
+                          ),
+                        );
+                      },
+                    ),
+                    CupertinoButton(
+                      child: const Text('OK'),
+                      onPressed: () => Navigator.of(context).pop(),
+                    )
+                  ],
+                ),
+              );
+            },
+          )
+        : showDatePicker(
+            context: context,
+            initialDate: DateTime.now(),
+            firstDate: DateTime(2023),
+            lastDate: DateTime.now(),
+          ).then((pickedDate) {
+            if (pickedDate == null) {
+              return;
+            }
+            setState(() {
+              _selectedDate = pickedDate;
+            });
+          });
   }
 
   @override
@@ -92,10 +132,10 @@ class _NewTransactionState extends State<NewTransaction> {
                             : 'No Date Chosen!',
                       ),
                     ),
-                    TextButton(
+                    AdaptiveButton(
+                      text: 'Choose Date',
                       onPressed: _presentDatePicker,
-                      child: const Text('Choose Date'),
-                    ),
+                    )
                   ],
                 ),
               ),
