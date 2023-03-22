@@ -14,7 +14,25 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'DeliMeals',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.pink,
+        colorScheme: ThemeData(useMaterial3: true).colorScheme.copyWith(
+              secondary: Colors.amber,
+            ),
+        canvasColor: const Color.fromRGBO(255, 254, 229, 1),
+        fontFamily: 'Raleway',
+        textTheme: const TextTheme(
+          bodySmall: TextStyle(
+            color: Color.fromRGBO(20, 51, 51, 1),
+          ),
+          bodyMedium: TextStyle(
+            color: Color.fromRGBO(20, 51, 51, 1),
+          ),
+          titleSmall: TextStyle(
+            fontSize: 20,
+            fontFamily: 'RobotoCondensed',
+            fontWeight: FontWeight.bold,
+          ),
+        ),
       ),
       home: const CategoriesScreen(),
     );
