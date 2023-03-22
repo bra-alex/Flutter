@@ -14,8 +14,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'DeliMeals',
       theme: ThemeData(
-        primarySwatch: Colors.pink,
         colorScheme: ThemeData(useMaterial3: true).colorScheme.copyWith(
+              primary: Colors.pink,
               secondary: Colors.amber,
             ),
         canvasColor: const Color.fromRGBO(255, 254, 229, 1),
