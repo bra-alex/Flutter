@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:food_app/models/meal.dart';
 import 'package:food_app/screens/meal_detail_screen.dart';
-import 'package:food_app/widgets/information_items.dart';
 
 class MealItem extends StatelessWidget {
   const MealItem({super.key, required this.meal});
@@ -30,10 +29,22 @@ class MealItem extends StatelessWidget {
     }
   }
 
+  Widget buildInformationItems(IconData icon, String label) {
+    return Row(
+      children: [
+        Icon(icon),
+        const SizedBox(
+          width: 6,
+        ),
+        Text(label),
+      ],
+    );
+  }
+
   void selectMeal(BuildContext context) {
     Navigator.of(context).pushNamed(
       MealDetailScreen.route,
-      arguments: meal.id,
+      arguments: meal,
     );
   }
 
@@ -89,18 +100,9 @@ class MealItem extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  InformationItems(
-                    icon: Icons.schedule,
-                    label: '${meal.duration} min',
-                  ),
-                  InformationItems(
-                    icon: Icons.work,
-                    label: complexityText,
-                  ),
-                  InformationItems(
-                    icon: Icons.attach_money,
-                    label: affordabilityText,
-                  ),
+                  buildInformationItems(Icons.schedule, '${meal.duration} min'),
+                  buildInformationItems(Icons.work, complexityText),
+                  buildInformationItems(Icons.attach_money, affordabilityText),
                 ],
               ),
             ),
