@@ -1,9 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:food_app/widgets/main_drawer.dart';
 
-class FiltersScreen extends StatelessWidget {
+class FiltersScreen extends StatefulWidget {
   static const routeName = '/filter';
   const FiltersScreen({super.key});
+
+  @override
+  State<FiltersScreen> createState() => _FiltersScreenState();
+}
+
+class _FiltersScreenState extends State<FiltersScreen> {
+  var _vegan = false;
+  var _vegetarian = false;
+  var _glutenFree = false;
+  var _lactoseFree = false;
+
+  Widget _buildFilters(
+      String title, String subtitle, bool filter, Function(bool) updateValue) {
+    return SwitchListTile.adaptive(
+      activeColor: Theme.of(context).colorScheme.secondary,
+      value: filter,
+      onChanged: updateValue,
+      title: Text(title),
+      subtitle: Text(subtitle),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -12,8 +33,61 @@ class FiltersScreen extends StatelessWidget {
         title: const Text('Filters'),
       ),
       drawer: const MainDrawer(),
-      body: const Center(
-        child: Text('Filters Page'),
+      body: Column(
+        children: [
+          Container(
+            padding: const EdgeInsets.all(20),
+            child: Text(
+              'Adjust your meal selection',
+              style: Theme.of(context).textTheme.titleSmall,
+            ),
+          ),
+          Expanded(
+              child: ListView(
+            children: [
+              _buildFilters(
+                'Vegan',
+                'Only include vegan meals.',
+                _vegan,
+                (value) {
+                  setState(() {
+                    _vegan = value;
+                  });
+                },
+              ),
+              _buildFilters(
+                'Vegetarian',
+                'Only include vegetarian meals.',
+                _vegetarian,
+                (value) {
+                  setState(() {
+                    _vegetarian = value;
+                  });
+                },
+              ),
+              _buildFilters(
+                'Glutten Free',
+                'Only include gluten free meals.',
+                _glutenFree,
+                (value) {
+                  setState(() {
+                    _glutenFree = value;
+                  });
+                },
+              ),
+              _buildFilters(
+                'Lactose Free',
+                'Only include lactose free meals.',
+                _lactoseFree,
+                (value) {
+                  setState(() {
+                    _lactoseFree = value;
+                  });
+                },
+              ),
+            ],
+          ))
+        ],
       ),
     );
   }
